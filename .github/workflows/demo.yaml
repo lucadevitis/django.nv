@@ -25,8 +25,18 @@ jobs:
       - run: exit 1
         continue-on-error: true
 
-  prod:
+  artifact:
     runs-on: ubuntu-20.04
     needs: integration
+    steps:
+      - run: echo "hello" > "hello.txt"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: hello
+          path: hello.txt
+
+  prod:
+    runs-on: ubuntu-20.04
+    needs: artifact
     steps:
       - run: echo "This is a deploy step"
